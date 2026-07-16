@@ -60,7 +60,7 @@ export default function PausedOrders() {
           );
         })}
 
-        {true && (
+        {false && (
           <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
             <img
               src={"/icons/noimage-list.svg"}
