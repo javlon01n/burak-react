@@ -1,12 +1,12 @@
 
-import HomePage from '../../app/screens/homePage/index';
-import PopularDishes from '../../app/screens/homePage/PopularDishes';
 import { Member } from './member';
 import { Product } from './product';
 
 /** REACT APP STATE */
 export interface AppRootState {
+    [x: string]: any;
     homePage: HomePageState;
+    ProductsPage: ProductsPageState;
 }
 
 /** HOMEPAGE */
@@ -17,6 +17,11 @@ export interface HomePageState {
 }
 
 /** PRODUCTS PAGE */
+export interface ProductsPageState {
+    restaurant: Member | null;
+    chosenProduct: Product | null;
+    products: Product[];
+}
 
 
 /** ORDERS PAGE */

@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -8,6 +7,25 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
+
+
+import { createSelector } from "reselect";
+import { retrieveProducts } from "./selector";
+import { Dispatch } from '../../../../node_modules/@types/redux-logger/node_modules/redux/src/types/store';
+import { setProducts } from "./slice";
+import { Product } from "../../../lib/types/product";
+
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
+});
+
+const productsRetriever = createSelector(
+  retrieveProducts,
+  (products) => ({ products })
+);
+
+
 
 const products = [
   { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
