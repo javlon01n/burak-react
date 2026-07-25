@@ -5,6 +5,7 @@ import { ProductCollection,
 
 
 export interface Product {
+    [x: string]: any;
     _id: string;
     productStatus: ProductStatus;
     productCollection: ProductCollection; 
