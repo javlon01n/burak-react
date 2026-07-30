@@ -7,9 +7,10 @@ import { Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
 import { T } from "../../../lib/types/common";
-import { MemberInput } from "../../../lib/types/member";
+import { LoginInput, MemberInput } from "../../../lib/types/member";
 import MemberService from "../../services/memberService";
 import { Messages } from "../../../lib/config";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -68,18 +69,18 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   const hendlePasswordKeyDown = (e: T) => {
     if (e.key === "Enter" && signupOpen ) {
       handleSignupRequest().then();
+    } else if (e.key === "Enter" && loginOpen) {
+      handleLoginRequest().then();
     }
-  }
+  };
 
 
   const handleSignupRequest = async () => {
   try {
     console.log("inputs:", memberNick, memberPhone, memberPassword);
 
-    const isFulfill =
-      memberNick !== "" &&
-      memberPhone !== "" &&
-      memberPassword !== "";
+
+     const isFulfill = memberNick !== "" && memberPhone !== "" && memberPassword !== "";
 
     if (!isFulfill) throw new Error(Messages.error3);
 
@@ -92,9 +93,34 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
     const member = new MemberService();
     const result = await member.signup(signupInput);
 
+    // Saving Authenticated user
     handleSignupClose();
   } catch (err) {
     console.log(err);
+    handleSignupClose();
+    sweetErrorHandling(err).then();
+  }
+};
+
+  const handleLoginRequest = async () => {
+  try {
+    const isFulfill = memberNick !== "" && memberPassword !== "";
+    if (!isFulfill) throw new Error(Messages.error3);
+
+    const loginInput: LoginInput = {
+      memberNick: memberNick,
+      memberPassword: memberPassword,
+    };
+
+    const member = new MemberService();
+    const result = await member.login(loginInput);
+
+    // Saving Authenticated user
+    handleLoginClose();
+  } catch (err) {
+    console.log(err);
+    handleLoginClose();
+    sweetErrorHandling(err).then();
   }
 };
 
@@ -126,6 +152,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 id="outlined-basic"
                 label="username"
                 variant="outlined"
+                value={memberNick}
                 onChange={hendleUsername}
               />
               <TextField
@@ -133,12 +160,14 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 id="outlined-basic"
                 label="phone number"
                 variant="outlined"
+                value={memberPhone}
                 onChange={hendlePhone}
               />
               <TextField
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                value={memberPassword}
                 onChange={hendlePassword}
                 onKeyDown={hendlePasswordKeyDown}
               />
@@ -188,17 +217,21 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 label="username"
                 variant="outlined"
                 sx={{ my: "10px" }}
+                onChange={hendleUsername}
               />
               <TextField
                 id={"outlined-basic"}
                 label={"password"}
                 variant={"outlined"}
                 type={"password"}
+                onChange={hendlePassword}
+                onKeyDown={hendlePasswordKeyDown}
               />
               <Fab
                 sx={{ marginTop: "27px", width: "120px" }}
                 variant={"extended"}
                 color={"primary"}
+                onClick={handleSignupRequest}
               >
                 <LoginIcon sx={{ mr: 1 }} />
                 Login
