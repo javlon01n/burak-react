@@ -17,8 +17,8 @@ export default function Footer() {
   return (
     <Footers>
       <Container>
-        <Stack flexDirection={"row"} sx={{ mt: "94px" }}>
-          <Stack flexDirection={"column"} style={{ width: "340px" }}>
+        <Stack direction={"row"} sx={{ mt: "94px" }}>
+          <Stack direction={"column"} style={{ width: "340px" }}>
             <Box>
               <img width={"100px"} src={"/icons/burak.svg"} />
             </Box>
@@ -34,7 +34,7 @@ export default function Footer() {
               <img src={"/icons/youtube.svg"} />
             </Box>
           </Stack>
-          <Stack sx={{ ml: "288px" }} flexDirection={"row"}>
+          <Stack sx={{ ml: "288px" }} direction={"row"}>
             <Stack>
               <Box>
                 <Box className={"foot-category-title"}>Bo'limlar</Box>
@@ -47,15 +47,12 @@ export default function Footer() {
               </Box>
             </Stack>
             <Stack sx={{ ml: "100px" }}>
-              <Box>
+              <Box className={""}>
                 <Box className={"foot-category-title"}>Find us</Box>
                 <Box
-                  flexDirection={"column"}
-                  sx={{ mt: "20px" }}
                   className={"foot-category-link"}
-                  justifyContent={"space-between"}
                 >
-                  <Box flexDirection={"row"} className={"find-us"}>
+                  <Box className={"find-us"}>
                     <span>L.</span>
                     <div>Downtown, Dubai</div>
                   </Box>
